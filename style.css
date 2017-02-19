@@ -1,3 +1,38 @@
 .best {
     color: red;
 }
+
+.separate-box {
+    margin-top: 10px;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-1 {
+    flex-grow: 1;
+}
+
+.flex-3 {
+    flex-grow: 3;
+}
+
+.btn {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#population-container {
+    max-height: 400px;
+    overflow-y: scroll;
+    border: 2px solid #8fa9ec;
+    border-radius: 2px;
+    padding: 5px 0;
+}
+
+#best-data {
+    margin: 0;
+}

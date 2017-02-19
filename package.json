@@ -1,0 +1,23 @@
+{
+  "name": "genetics",
+  "version": "0.0.1",
+  "description": "Experimenting with genetics alg",
+  "main": "genetics.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nficca/genetics.git"
+  },
+  "author": "nficca",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nficca/genetics/issues"
+  },
+  "homepage": "https://github.com/nficca/genetics#readme",
+  "dependencies": {
+    "angular": "^1.6.2",
+    "bootstrap": "^3.3.7"
+  }
+}
