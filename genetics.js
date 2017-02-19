@@ -2,17 +2,39 @@ angular.module('Genetics', [])
     .controller('GeneticsController', function($scope) {
         $scope.target = "Hello World";
         $scope.simulating = false;
+        $scope.advancing = false;
         $scope.population = [];
         $scope.best = null;
 
         $scope.Start = function() {
+            if ($scope.simulating) return;
+
             $scope.simulating = true;
 
-            var pop = new Population($scope.target, 100, 0.05);
+            var pop = new Population($scope.target, 400, 0.05);
             pop.CalcFitness();
 
-            $scope.population = pop.population;
-            $scope.best = pop.best;
+            $scope.population = pop;
+        };
+
+        $scope.AdvanceGeneration = function() {
+            if (!$scope.simulating || $scope.advancing) return;
+
+            $scope.advancing = true;
+
+            $scope.population.NormalizeFitness();
+            $scope.population.Breed();
+
+            $scope.population.CalcFitness();
+
+            $scope.advancing = false;
+        };
+
+        $scope.AdvanceXGenerations = function(x) {
+            while (x > 0) {
+                $scope.AdvanceGeneration();
+                x--;
+            }
         };
 
         function Population(target, max, mutationRate) {
@@ -29,9 +51,7 @@ angular.module('Genetics', [])
             self.Init = function() {
                 self.population.length = 0;
                 for (var i = 0; i < self.max; ++i) {
-                    var subject = new Subject(target.length);
-                    subject.Init();
-                    self.population.push(subject);
+                    self.population.push(new Subject(target.length));
                 }
             };
 
@@ -45,23 +65,20 @@ angular.module('Genetics', [])
                         self.best = self.population[i];
                     }
                 }
-            };
 
-            /**
-             * Sorts each subject by descending fitness and calculates their accumulated normalized
-             * fitness value.
-             */
-            self.NormalizeFitness = function() {
                 // Sort by descending fitness
                 self.population.sort(function(a, b) {
                     return b.fitness - a.fitness;
                 });
 
+            };
+
+            self.NormalizeFitness = function() {
                 // Calc accumulated normalized fitness
                 var accumulatedFitness = 0;
                 for (var i = 0; i < self.population.length; ++i) {
-                    var normalizedFitness = population[i].fitness / self.totalFitness;
-                    population[i].accNormFitness = accumulatedFitness + normalizedFitness;
+                    var normalizedFitness = self.population[i].fitness / self.totalFitness;
+                    self.population[i].accNormFitness = accumulatedFitness + normalizedFitness;
                     accumulatedFitness += normalizedFitness;
                 }
             };
@@ -74,7 +91,7 @@ angular.module('Genetics', [])
                         parentA = -1,
                         parentB = -1;
 
-                    for (var j = 0; j < self.population.length; ++i) {
+                    for (var j = 0; j < self.population.length; ++j) {
                         if (parentA === -1 && self.population[j].accNormFitness >= valueA) {
                             parentA = j;
                         }
@@ -135,7 +152,7 @@ angular.module('Genetics', [])
                 var child = new Subject(self.length);
 
                 for (var i = 0; i < self.data.length && i < other.data.length; ++i) {
-                    child.data[i] = i <= mid ? self.data[i] : other.data[i];
+                    child.data = child.data.substr(0, i) + (i <= mid ? self.data[i] : other.data[i]) + child.data.substr(i + 1);
                 }
 
                 return child;
@@ -143,8 +160,13 @@ angular.module('Genetics', [])
 
             self.Mutate = function(mutationRate) {
                 for (var i = 0; i < self.data.length; ++i) {
-                    if (Math.random() < mutationRate) self.data[i] = String.fromCharCode(Math.random() * 95 + 32);
+                    if (Math.random() < mutationRate) {
+                        var mutatedChar = String.fromCharCode(Math.random() * 95 + 32);
+                        self.data = self.data.substr(0, i) + mutatedChar + self.data.substr(i + 1);
+                    }
                 }
-            }
+            };
+
+            self.Init();
         }
     });

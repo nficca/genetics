@@ -8,12 +8,14 @@
 </head>
 <body>
     <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/lodash/lodash.min.js"></script>
     <script src="genetics.js"></script>
     <div ng-app="Genetics">
         <div ng-controller="GeneticsController">
             <div class="container separate-box">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
+                        <!--Target field & start button-->
                         <div class="col-xs-12">
                             <div class="flex-container">
                                 <div class="flex-3" style="margin-right: 4px">
@@ -27,14 +29,34 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!--Advance generation button--->
+                        <div class="col-xs-12 separate-box">
+                            <a class="btn btn-primary" ng-click="AdvanceGeneration()" ng-disabled="advancing" ng-hide="!simulating">
+                                Advance Generation
+                            </a>
+                        </div>
+
+                        <!-- Auto Advance button-->
+                        <div class="col-xs-12 separate-box">
+                            <a class="btn btn-primary" ng-click="AdvanceXGenerations(10)" ng-disabled="advancing" ng-hide="!simulating">
+                                Advance 10 Generations
+                            </a>
+                        </div>
+
+                        <div class="col-xs-12 separate-box" ng-if="population.generations >= 0">
+                            <h2 class="data-value"><b>Generation {{population.generations}}</b></h2>
+                        </div>
+
                         <div class="col-xs-12 separate-box">
                             Best Subject:
-                            <h2 id="best-data"><b>{{best.data}}</b></h2>
+                            <h2 class="data-value"><b>{{population.best.data}}</b></h2>
                         </div>
+
                     </div>
                     <div id="population-container" class="col-xs-12 col-sm-6">
                         <ul>
-                            <li ng-repeat="subject in population" ng-class="{'best': subject.data === best.data}">
+                            <li ng-repeat="subject in population.population" ng-class="{'best': subject.data === population.best.data}">
                                 {{subject.data}}
                             </li>
                         </ul>

@@ -25,14 +25,14 @@
     text-align: center;
 }
 
+.data-value {
+    margin: 0;
+}
+
 #population-container {
     max-height: 400px;
     overflow-y: scroll;
     border: 2px solid #8fa9ec;
     border-radius: 2px;
     padding: 5px 0;
-}
-
-#best-data {
-    margin: 0;
 }
