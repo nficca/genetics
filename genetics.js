@@ -11,10 +11,17 @@ angular.module('Genetics', [])
 
             $scope.simulating = true;
 
-            var pop = new Population($scope.target, 400, 0.05);
+            var pop = new Population($scope.target, 400, 0.01);
             pop.CalcFitness();
 
             $scope.population = pop;
+        };
+
+        $scope.Reset = function() {
+            $scope.simulating = false;
+            $scope.advancing = false;
+            $scope.population = 0;
+            $scope.best = null;
         };
 
         $scope.AdvanceGeneration = function() {

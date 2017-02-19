@@ -30,6 +30,17 @@
                             </div>
                         </div>
 
+                        <!--Generation display-->
+                        <div class="col-xs-12 separate-box" ng-hide="!simulating">
+                            <h2 class="data-value"><b>Generation {{population.generations}}</b></h2>
+                        </div>
+
+                        <!--Best subject display-->
+                        <div class="col-xs-12 separate-box" ng-hide="!simulating">
+                            Best Subject:
+                            <h2 class="data-value"><b>{{population.best.data}}</b></h2>
+                        </div>
+
                         <!--Advance generation button--->
                         <div class="col-xs-12 separate-box">
                             <a class="btn btn-primary" ng-click="AdvanceGeneration()" ng-disabled="advancing" ng-hide="!simulating">
@@ -37,24 +48,29 @@
                             </a>
                         </div>
 
-                        <!-- Auto Advance button-->
+                        <!-- Advance 10 button-->
                         <div class="col-xs-12 separate-box">
                             <a class="btn btn-primary" ng-click="AdvanceXGenerations(10)" ng-disabled="advancing" ng-hide="!simulating">
                                 Advance 10 Generations
                             </a>
                         </div>
 
-                        <div class="col-xs-12 separate-box" ng-if="population.generations >= 0">
-                            <h2 class="data-value"><b>Generation {{population.generations}}</b></h2>
+                        <!-- Advance 100 button-->
+                        <div class="col-xs-12 separate-box">
+                            <a class="btn btn-primary" ng-click="AdvanceXGenerations(100)" ng-disabled="advancing" ng-hide="!simulating">
+                                Advance 100 Generations
+                            </a>
                         </div>
 
+                        <!-- Start over button-->
                         <div class="col-xs-12 separate-box">
-                            Best Subject:
-                            <h2 class="data-value"><b>{{population.best.data}}</b></h2>
+                            <a class="btn btn-danger" ng-click="Reset()" ng-disabled="advancing" ng-hide="!simulating">
+                                Start over
+                            </a>
                         </div>
 
                     </div>
-                    <div id="population-container" class="col-xs-12 col-sm-6">
+                    <div id="population-container" class="col-xs-12 col-sm-6" ng-hide="!simulating">
                         <ul>
                             <li ng-repeat="subject in population.population" ng-class="{'best': subject.data === population.best.data}">
                                 {{subject.data}}
