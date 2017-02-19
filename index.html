@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Title</title>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="genetics.js"></script>
+    <div ng-app="Genetics">
+        <div ng-controller="GeneticsController">
+            <input type="text" ng-model="target" ng-keyup="$event.keyCode == 13 ? Start() : null" ng-disabled="simulating">
+            <button ng-click="Start()" ng-disabled="simulating">Start</button>
+            <ul>
+                <li ng-repeat="subject in population" ng-class="{'best': subject.data === best.data}">
+                    {{subject.data}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
