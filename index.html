@@ -72,7 +72,7 @@
                     </div>
                     <div id="population-container" class="col-xs-12 col-sm-6" ng-hide="!simulating">
                         <ul>
-                            <li ng-repeat="subject in population.population" ng-class="{'best': subject.data === population.best.data}">
+                            <li class="li-all" ng-repeat="subject in population.population" ng-class-even="'li-even'" ng-class="{'best': subject.data === population.best.data}">
                                 {{subject.data}}
                             </li>
                         </ul>
